@@ -9,6 +9,9 @@ for the Sheepthieves robot via serial communication.
 import serial
 import time
 import sys
+import platform
+import os
+import glob
 
 class RobotController:
     def __init__(self, port=None, baudrate=9600):
@@ -38,9 +41,6 @@ class RobotController:
     
     def _detect_port(self):
         """Auto-detect the Arduino port"""
-        import platform
-        import os
-        
         system = platform.system()
         
         # Try common ports based on OS
@@ -49,14 +49,16 @@ class RobotController:
         elif system == "Windows":
             ports = [f'COM{i}' for i in range(3, 10)]
         elif system == "Darwin":  # macOS
-            ports = ['/dev/cu.usbserial', '/dev/cu.usbmodem']
+            # Use glob to find all matching devices
+            ports = glob.glob('/dev/cu.usbserial*') + glob.glob('/dev/cu.usbmodem*')
         else:
             ports = []
         
         for port in ports:
             if system == "Windows" or os.path.exists(port):
                 try:
-                    s = serial.Serial(port, 9600, timeout=1)
+                    # Use a short timeout just for detection
+                    s = serial.Serial(port, 9600, timeout=0.5)
                     s.close()
                     print(f"Auto-detected port: {port}")
                     return port
