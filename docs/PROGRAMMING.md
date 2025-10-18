@@ -86,12 +86,15 @@ const int TURN_SPEED = 100;    // Velocidad de giro (0-255)
 
 ### Calibración de Sensores
 
-El umbral de detección de línea está configurado en 500. Ajustar según los sensores:
+El umbral de detección de línea está configurado en la constante `SENSOR_THRESHOLD`. Ajustar según los sensores:
 ```cpp
-if (centerSensor > 500) {  // Cambiar este valor
-    moveForward();
-}
+const int SENSOR_THRESHOLD = 500;  // Cambiar este valor
 ```
+
+Para calibrar:
+1. Abrir el programa de prueba `examples/test_sensors.ino`
+2. Observar los valores de los sensores sobre línea negra y superficie blanca
+3. Ajustar `SENSOR_THRESHOLD` a un valor entre ambos
 
 ## Solución de Problemas
 

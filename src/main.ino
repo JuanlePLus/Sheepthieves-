@@ -18,6 +18,9 @@ const int SENSOR_RIGHT = A2;
 const int NORMAL_SPEED = 150;
 const int TURN_SPEED = 100;
 
+// Sensor threshold
+const int SENSOR_THRESHOLD = 500;
+
 void setup() {
   // Initialize serial communication
   Serial.begin(9600);
@@ -43,13 +46,13 @@ void loop() {
   int rightSensor = analogRead(SENSOR_RIGHT);
   
   // Simple line following logic
-  if (centerSensor > 500) {
+  if (centerSensor > SENSOR_THRESHOLD) {
     // Line detected in center - move forward
     moveForward();
-  } else if (leftSensor > 500) {
+  } else if (leftSensor > SENSOR_THRESHOLD) {
     // Line detected on left - turn left
     turnLeft();
-  } else if (rightSensor > 500) {
+  } else if (rightSensor > SENSOR_THRESHOLD) {
     // Line detected on right - turn right
     turnRight();
   } else {
